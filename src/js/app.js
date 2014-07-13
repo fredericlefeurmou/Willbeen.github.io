@@ -1,15 +1,16 @@
 (function () {
   var app = angular.module("weatherApp", []);
 
-  app.controller("placeController", ["$http", function($http) {
+  app.controller("PlaceController", ["$http", function($http) {
     var place = this;
+    this.tab = 1;
     this.unit = "metric";
     this.forecastDays = "7";
     this.lang = "en";
     this.forecast = [];
 
     this.submitForecast = function(query) {
-      if (typeof query.name !== "undefined" && query.name !== "") {
+      if (place.tab === 1 &&  typeof query.name !== "undefined" && query.name !== "") {
           var queryNameSearch = query.name;
           if (typeof query.countryCode !== "undefined" && query.countryCode !== "") {
             queryNameSearch += ',' + place.countryCode;
@@ -35,7 +36,7 @@
             .success(function(data) {
               place.forecast = data.list;
             });
-      } else if (typeof query.lat !== "undefined" && typeof query.lon !== "undefined") {
+      } else if (place.tab === 2 && typeof query.lat !== "undefined" && typeof query.lon !== "undefined") {
         $http.get("http://api.openweathermap.org/data/2.5/weather", {
           params: {
             lat: query.lat,
@@ -59,6 +60,14 @@
             place.forecast = data.list;
           });
       }
+    };
+
+    this.isSet = function(tabName){
+      return this.tab === tabName;
+    };
+
+    this.setTab = function(newValue){
+      this.tab = newValue;
     };
   }]);
 })();

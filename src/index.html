@@ -19,23 +19,34 @@
     <h1>Weather forecast application</h1>
     <br>
 
-    <section id="weatherForecast" ng-controller="placeController as place">
+    <section id="weatherForecast" ng-controller="PlaceController as place">
+      <ul class="nav nav-pills">
+        <li ng-class="{ active: place.isSet(1) }">
+          <a href ng-click="place.setTab(1)">City name</a></li>
+        <li ng-class="{ active: place.isSet(2) }">
+          <a href ng-click="place.setTab(2)">Geographic coordinate</a></li>
+      </ul>
+      <br>
       <form class="form-inline" role="form" ng-submit="place.submitForecast(place)">
-        <div class="form-group">
+        <div class="form-group" ng-show="place.isSet(1)">
           <label class="sr-only">City</label>
           <input class="form-control" type="text" placeholder="Chose your city" ng-model="place.name">
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-show="place.isSet(1)">
           <input class="form-control" type="text" placeholder="Country code" ng-model="place.countryCode">
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-show="place.isSet(2)">
           <input class="form-control" type="text" placeholder="Latitude" ng-model="place.lat">
         </div>
-        <div class="form-group">
+        <div class="form-group" ng-show="place.isSet(2)">
           <input class="form-control" type="text" placeholder="Longitude" ng-model="place.lon">
         </div>
         <div class="form-group">
-          <input class="form-control" type="text" placeholder="Language" ng-model="place.lang">
+          <label>Language</label>
+          <select class="form-control" ng-model="place.lang">
+            <option value="en">English</option>
+            <option value="fr">French</option>
+          </select>
         </div>
         <div class="form-group">
           <label>Unit</label>
@@ -59,7 +70,7 @@
 
       <h3>{{place.nameResults}}</h3>
 
-      <div ng-show="place.currentWeather">
+      <div ng-show="place.currentWeather && place.nameResults">
         {{place.currentWeather.main.temp}}
           <span ng-if="place.unitResults === 'metric'">°C</span>
           <span ng-if="place.unitResults === 'imperial'">°F</span>
