@@ -17,32 +17,79 @@
 
   <body>
     <h1>Weather forecast application</h1>
+    <br>
 
     <section id="weatherForecast" ng-controller="placeController as place">
-      <form ng-submit="place.submitForecast(place.name)">
-        City : <input type="text" ng-model="place.name">
-        Units :
-        <select ng-model="place.units">
-          <option value="metric">metric</option>
-          <option value="imperial">imperial</option>
-        </select>
-        Forecast :
-        <select ng-model="place.forecastDays">
-          <option value="1">1</option>
-          <option value="3">3</option>
-          <option value="7">7</option>
-          <option value="10">10</option>
-          <option value="14">14</option>
-        </select>
-        <input type="submit" value="Submit">
+      <form class="form-inline" role="form" ng-submit="place.submitForecast(place)">
+        <div class="form-group">
+          <label class="sr-only">City</label>
+          <input class="form-control" type="text" placeholder="Chose your city" ng-model="place.name">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="Country code" ng-model="place.countryCode">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="Latitude" ng-model="place.lat">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="Longitude" ng-model="place.lon">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" placeholder="Language" ng-model="place.lang">
+        </div>
+        <div class="form-group">
+          <label>Unit</label>
+          <select class="form-control" ng-model="place.unit">
+            <option value="metric">metric</option>
+            <option value="imperial">imperial</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Forecast</label>
+          <select class="form-control" ng-model="place.forecastDays">
+            <option value="1">1 days</option>
+            <option value="3">3 days</option>
+            <option value="7">7 days</option>
+            <option value="10">10 days</option>
+            <option value="14">14 days</option>
+          </select>
+        </div>
+        <input type="submit" class="btn btn-default">
       </form>
 
-      <br>
-      <strong>{{place.name}}</strong>
-      <h6 ng-repeat="weather in place.forecast">
-        Temperature : {{weather.temp.day}}
-        <img src="http://openweathermap.org/img/w/{{weather.weather[0].icon}}.png" />
-      </h6>
+      <h3>{{place.nameResults}}</h3>
+
+      <div ng-show="place.currentWeather">
+        {{place.currentWeather.main.temp}}
+          <span ng-if="place.unitResults === 'metric'">°C</span>
+          <span ng-if="place.unitResults === 'imperial'">°F</span>
+        {{place.currentWeather.weather[0].description}}
+        <img src="http://openweathermap.org/img/w/{{place.currentWeather.weather[0].icon}}.png" />
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Day</th>
+            <th>Temperature</th>
+            <th>Description</th>
+            <th>Weather</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="weather in place.forecast">
+            <td>{{$index+1}}</td>
+            <td>
+              {{weather.temp.day}}
+              <span ng-if="place.unitResults === 'metric'">°C</span>
+              <span ng-if="place.unitResults === 'imperial'">°F</span>
+            </td>
+            <td>{{weather.weather[0].description}}</td>
+            <td>
+              <img src="http://openweathermap.org/img/w/{{weather.weather[0].icon}}.png" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
     <section>
 
   </body>
