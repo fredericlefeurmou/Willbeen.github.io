@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="weatherApp">
+  <head>
+      <meta charset="utf-8" />
+      <link rel="stylesheet" type="text/css" href="css/style.css" />
+      <link rel="stylesheet" href="libs/vendors/bootstrap-3.1.1-dist/css/bootstrap.min.css">
+      <title>Weather forecast app</title>
+
+      <!-- === Libraries === -->
+      <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.js"></script>
+      <script type="text/javascript" src="libs/vendors/angular.min.js"></script>
+      <script type="text/javascript" src="libs/vendors/bootstrap-3.1.1-dist/js/bootstrap.min.js"></script>
+
+      <!-- === Application === -->
+      <script src="js/app.js"></script>
+  </head>
+
+  <body>
+    <h1>Weather forecast application</h1>
+
+    <section id="weatherForecast" ng-controller="placeController as place">
+      <form ng-submit="place.submitForecast(place.name)">
+        City : <input type="text" ng-model="place.name">
+        Units :
+        <select ng-model="place.units">
+          <option value="metric">metric</option>
+          <option value="imperial">imperial</option>
+        </select>
+        Forecast :
+        <select ng-model="place.forecastDays">
+          <option value="1">1</option>
+          <option value="3">3</option>
+          <option value="7">7</option>
+          <option value="10">10</option>
+          <option value="14">14</option>
+        </select>
+        <input type="submit" value="Submit">
+      </form>
+
+      <br>
+      <strong>{{place.name}}</strong>
+      <h6 ng-repeat="weather in place.forecast">
+        Temperature : {{weather.temp.day}}
+        <img src="http://openweathermap.org/img/w/{{weather.weather[0].icon}}.png" />
+      </h6>
+    <section>
+
+  </body>
+</html>
