@@ -6,7 +6,7 @@
 		this.tab = 1;
 		this.unit = "metric";
 		this.forecastDays = "7";
-		this.langage = "en";
+		this.language = "en";
 		this.forecast = [];
 
 		this.submitForecast = function(query) {
@@ -21,7 +21,7 @@
 						params: {
 							q: queryNameSearch,
 							units: place.unit,
-							lang: place.langage
+							lang: place.language
 						}})
 						.success(function(data) {
 							place.nameResults = data.name;
@@ -34,7 +34,7 @@
 							q: queryNameSearch,
 							units: place.unit,
 							cnt: place.forecastDays,
-							lang: place.langage
+							lang: place.language
 						}})
 						.success(function(data) {
 							place.forecast = data.list;
@@ -47,7 +47,7 @@
 						lat: query.lat,
 						lon: query.lon,
 						units: place.unit,
-						lang: place.langage
+						lang: place.language
 					}})
 					.success(function(data) {
 						place.nameResults = data.name;
